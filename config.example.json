@@ -1,0 +1,62 @@
+{
+  "database": "./data/core.sqlite3",
+  "host": "127.0.0.1",
+  "port": 18200,
+  "models": [
+    {
+      "id": "primary",
+      "name": "Approved text model",
+      "providerType": "OPENAI",
+      "model": "configure-a-model-name",
+      "baseUrl": "https://api.example.invalid/v1",
+      "apiKeyEnv": "AGENT_CORE_MODEL_KEY"
+    }
+  ],
+  "services": [
+    {
+      "id": "chat-saas",
+      "tenantId": "default",
+      "tokenSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "domains": ["chat"],
+      "modelProfiles": ["primary"],
+      "defaultModelProfile": "primary",
+      "tools": ["ocr_analyze"],
+      "maxActiveRuns": 2,
+      "ragCallback": {"url": "http://127.0.0.1:18100/api/internal/agent-core/rag", "tokenEnv": "AGENT_CORE_CHAT_CALLBACK_TOKEN"}
+    },
+    {
+      "id": "cad",
+      "tenantId": "default",
+      "tokenSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "domains": ["cad"],
+      "modelProfiles": ["primary"],
+      "defaultModelProfile": "primary",
+      "projectIds": ["configure-a-project-id"],
+      "tools": ["ocr_analyze"],
+      "maxActiveRuns": 2,
+      "maxOutputTokens": 4096
+    }
+  ],
+  "httpTools": [
+    {
+      "name": "ocr_analyze",
+      "version": "1",
+      "description": "联合分析选定证据图片、原生设计数据及问题；输出待核实观察与提案。每次选择1至6张图片。",
+      "effect": "analyze",
+      "transport": "ocr-vision-v1",
+      "domains": ["cad", "chat"],
+      "url": "http://127.0.0.1:18300/api/vision/v1",
+      "tokenEnv": "AGENT_CORE_OCR_TOKEN",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "question": {"type": "string", "minLength": 1, "maxLength": 20000},
+          "capability": {"enum": ["cad.analysis", "image.describe", "cad.document_reconstruction"]},
+          "imageIndices": {"type": "array", "items": {"type": "integer", "minimum": 0}, "minItems": 1, "maxItems": 6, "uniqueItems": true}
+        },
+        "required": ["question", "imageIndices"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Core · 执行控制台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230071e3'/%3E%3Cpath d='M23 10a9 9 0 1 0 0 12' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/admin/assets/style.css">
+  <script defer src="/admin/assets/tooltip.js"></script>
+  <script defer src="/admin/assets/capability-data.js"></script>
+  <script defer src="/admin/assets/capability-ui.js"></script>
+  <script defer src="/admin/assets/provider-tree.js"></script>
+  <script defer src="/admin/assets/registry.js"></script>
+  <script defer src="/admin/assets/app.js"></script>
+</head>
+<body>
+  <div id="login" class="login-screen">
+    <div class="login-intro"><div class="brand-mark" aria-hidden="true">S</div><p class="eyebrow">STOCK CORE</p><h1>股票研究核心</h1><p class="login-caption">模型、数据工具与研究技能</p><div class="connection-strip" aria-hidden="true"><span>Chat</span><span>Skills</span><i></i><strong>Core</strong><i></i><span>Data</span><span>MCP</span></div></div>
+    <form id="login-form" class="login-card" method="post"><h2>管理员登录</h2><label for="username">账号</label><input id="username" name="username" autocomplete="username" value="admin" required maxlength="120"><label for="password">密码</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="128"><p id="login-error" class="error" role="alert" hidden></p><button id="connect" class="button primary" type="submit">登录</button><p class="login-foot">首次使用默认账号 admin / admin123，登录后必须修改密码。</p></form>
+    <form id="password-form" class="login-card" method="post" hidden><h2 id="password-heading">修改初始密码</h2><p>设置 10–128 个字符的新密码。</p><label for="current-password">当前密码</label><input id="current-password" type="password" autocomplete="current-password" required maxlength="128"><label for="new-password">新密码</label><input id="new-password" type="password" autocomplete="new-password" required minlength="10" maxlength="128"><label for="confirm-password">确认新密码</label><input id="confirm-password" type="password" autocomplete="new-password" required minlength="10" maxlength="128"><p id="password-error" class="error" role="alert" hidden></p><button id="save-password" class="button primary" type="submit">保存密码</button><button id="cancel-password" class="button" type="button">退出登录</button></form>
+  </div>
+  <div id="shell" class="shell" hidden>
+    <aside class="sidebar" aria-label="主导航">
+      <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">C</span><span><strong>Core</strong><small>执行控制台</small></span></a>
+      <nav id="navigation" aria-label="控制台页面"></nav>
+      <div class="sidebar-bottom"><div class="instance"><span class="status-dot"></span><span>独立 Core 实例<small>单进程 · SQLite</small></span></div><button id="theme" class="nav-action" type="button">切换外观</button><button id="change-password" class="nav-action" type="button">修改密码</button><button id="logout" class="nav-action" type="button">退出控制台</button></div>
+    </aside>
+    <div class="main-shell">
+      <header class="topbar"><div><span class="breadcrumb">控制台</span><span class="breadcrumb-separator">/</span><span id="breadcrumb-current">概览</span></div><div class="topbar-actions"><span id="sync-status" role="status">正在连接</span><button id="refresh" class="icon-button" aria-label="刷新数据" title="刷新数据"></button></div></header>
+      <div id="global-error" class="global-error" role="alert" hidden></div>
+      <div class="workspace" id="workspace"><main id="content" tabindex="-1"></main><button type="button" id="drawer-backdrop" class="drawer-backdrop" data-close-detail aria-label="关闭编辑抽屉" hidden></button><aside id="inspector" class="inspector" role="dialog" aria-modal="true" aria-label="配置编辑" tabindex="-1" hidden></aside></div>
+      <footer class="statusbar"><span id="connection-state"><span class="status-dot"></span> Core 已连接</span><span>Core VLM · OCR · RAG</span></footer>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
